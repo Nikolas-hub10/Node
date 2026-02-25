@@ -45,18 +45,15 @@ app.delete('/selecoes/:id', (req, res)=>{
     res.send('Seleção excluida com sucesso')
 })
 
-app.put('/selecoes/:id', (req, res)=>{
-
-    let id = req.params.id
-   // let index = req.params.id
+app.put('/selecoes/:id',(req,res)=>{
+    //let index = req.params.id
     //console.log(index)
-    let index = res.buscarSelecoesIndex(req.params.id)
+    let index = buscarIndexSelecao(req.params.id)
     //req.body.grupo
-    let nomeselecao = req.body
-    selecoes.findIndex(selecao = nomeselecao ) = 
-    res.send('Seleção atualizada com sucesso')
-})//terminar o put
-
+    req.body
+    res.send("Seleção Modificada com Sucesso!")
+    
+})
 
 app.post('/selecoes', (req, res)=>{
     selecoes.push(req.body)
