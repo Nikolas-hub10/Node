@@ -60,6 +60,13 @@ app.put('/selecoes/:id', (req, res) => {
     res.send("Seleção atualizada com sucesso!")
 })
 
+app.post('/selecoes', (req, res)=>{
+    selecoes.push(req.body)
+    res.status(200).send('Seleção cadastrada com sucesso!')
+})
+
+
+
 
 app.post('/selecoes', (req, res)=>{
     selecoes.push(req.body)
