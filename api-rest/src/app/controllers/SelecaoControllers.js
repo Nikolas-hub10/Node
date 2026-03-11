@@ -1,42 +1,58 @@
-import conexao from "../database/conexao.js"
-class SelecaoController{
-    //Listar tudo
-    index(req,res){
-        const slq = "SELECT * FROM dbselecao.bdcopa"
-        conexao.query(slq, (erro, resultado) => {
-            if (erro) {
-                console.log(erro)
-                //TODO: status 404 error
-            } else {
-                res.status(200).json(resultado)
-            }
-        })
-    }
+import SelecaoRepository from '../repositories/SelecaoRepository.js'
 
-    //Listar por id
-    show(req,res){
+class SelecaoController {
+    
 
-        const id = req.params.id
-        const slq = "SELECT * FROM dbselecao.bdcopa WHERE id=?;"
-        conexao.query(slq, id, (erro, resultado)=>{
-        const linha = resultado[0]
-        if(erro){
-            console.log(erro)
-            //TODO: status 404 error
-        }else{
+
+    async index(req, res) {
+        try {
+            const resultado = await SelecaoRepository.findAll()
             res.status(200).json(resultado)
+        } catch (erro) {
+            res.status(404).json({ 'erro': erro })
         }
-    })
-    }
-    //Criar dados
-    store() {}
-
-    // Atualizar dados
-    update() {
     }
 
-    // Remover dados
-    delete(){}
+    async show(req, res) {
+        try {
+            const id = req.params.id
+            const resultado = await SelecaoRepository.findById(id)
+            res.status(200).json(resultado[0])
+        } catch (erro) {
+            res.status(404).json({ 'erro': erro })
+        }
+    }
+
+    async store(req, res) {
+        try {
+            const selecao = req.body
+            const resultado = await SelecaoRepository.create(selecao)
+            res.status(201).json(resultado)
+        } catch (erro) {
+            res.status(400).json({ 'erro': erro })
+        }
+    }
+
+    async update(req, res) {
+        try {
+            const id = req.params.id
+            const selecao = req.body
+            const resultado = await SelecaoRepository.update(selecao, id)
+            res.status(200).json(resultado)
+        } catch (erro) {
+            res.status(400).json({ 'erro': erro })
+        }
+    }
+
+    async delete(req, res) {
+        try {
+            const id = req.params.id
+            const resultado = await SelecaoRepository.delete(id)
+            res.status(200).json(resultado)
+        } catch (erro) {
+            res.status(404).json({ 'erro': erro })
+        }
+    }
 }
-// Padrão singleton
+
 export default new SelecaoController()
